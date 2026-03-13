@@ -258,7 +258,6 @@
       padding: 28px;
       cursor: pointer;
       transition: all .3s cubic-bezier(0.16,1,0.3,1);
-      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
@@ -273,10 +272,19 @@
     .book-card:hover::before { opacity: 1; }
 
     .book-badge {
-      position: absolute; top: 16px; right: 16px;
+      display: inline-block;
+      align-self: flex-end;
+      margin-bottom: 10px;
       background: var(--gold); color: #09090b;
       font-size: 10px; font-weight: 800; letter-spacing: 1px;
       text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+    }
+    .book-badge-placeholder {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 4px 10px;
+      visibility: hidden;
+      font-size: 10px;
     }
     .book-badge.coming { background: rgba(255,255,255,0.08); color: var(--muted); }
 
@@ -326,24 +334,29 @@
     }
     .book-footer {
       display: flex; align-items: center; justify-content: space-between;
+      gap: 8px;
       margin-top: 20px;
       padding-top: 16px;
       border-top: 1px solid var(--border);
+      flex-wrap: nowrap;
     }
     .book-meta { display: flex; align-items: center; gap: 12px; }
-    .book-pages { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+    .book-pages { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; flex-shrink: 0; white-space: nowrap; }
     .book-price {
       font-size: 18px; font-weight: 700; color: var(--white); letter-spacing: -0.5px;
+      flex-shrink: 0; white-space: nowrap;
     }
     .book-price-free { font-size: 14px; font-weight: 600; color: var(--gold); }
     .book-btn {
       background: rgba(201,168,76,0.12);
       border: 1px solid rgba(201,168,76,0.25);
       color: var(--gold);
-      padding: 9px 18px; border-radius: 10px;
+      padding: 9px 16px; border-radius: 10px;
       font-size: 13px; font-weight: 600;
       cursor: pointer; border: none;
       transition: all .2s;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .book-btn:hover { background: var(--gold); color: #09090b; }
     .book-btn.coming-btn {
@@ -721,6 +734,7 @@
 
     <!-- Book 2: Prompt Like a Pro -->
     <div class="book-card reveal reveal-delay-1" onclick="openModal('prompt')">
+      <div class="book-badge-placeholder">·</div>
       <div class="book-cover-wrap">
         <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/ad8021ff7_generated_image.png" alt="Prompt Like a Pro" />
       </div>
@@ -766,6 +780,7 @@
 
     <!-- Book 4: The One-Person Business -->
     <div class="book-card reveal reveal-delay-3" onclick="openModal('oneperson')">
+      <div class="book-badge-placeholder">·</div>
       <div class="book-cover-wrap">
         <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/4974463dd_generated_image.png" alt="The One-Person Business" />
       </div>
