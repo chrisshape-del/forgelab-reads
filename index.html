@@ -21,12 +21,7 @@
       --border: #2a2a30;
     }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--dark);
-      color: var(--white);
-      min-height: 100vh;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--white); min-height: 100vh; }
 
     /* NAV */
     nav {
@@ -60,8 +55,7 @@
       display: flex; align-items: center; justify-content: center;
       text-align: center;
       padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .hero::before {
       content: '';
@@ -91,7 +85,7 @@
       background: var(--gold); color: var(--dark);
       padding: 14px 32px; border-radius: 10px;
       font-weight: 800; font-size: 15px; text-decoration: none;
-      transition: all 0.2s; letter-spacing: -0.2px;
+      transition: all 0.2s;
     }
     .btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
     .btn-secondary {
@@ -102,7 +96,7 @@
     }
     .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
 
-    /* STATS BAR */
+    /* STATS */
     .stats-bar {
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       padding: 32px 48px;
@@ -115,70 +109,168 @@
 
     /* SECTION */
     section { padding: 100px 24px; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 64px; }
-    .section-label {
-      font-size: 11px; font-weight: 700; color: var(--gold);
-      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
-    }
-    .section-title {
-      font-size: clamp(32px, 4vw, 48px); font-weight: 900;
-      letter-spacing: -1.5px; line-height: 1.1;
-    }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 72px; }
+    .section-label { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+    .section-title { font-size: clamp(32px, 4vw, 48px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; }
     .section-sub { color: var(--muted); font-size: 17px; margin-top: 16px; }
 
-    /* BOOK GRID */
+    /* BOOKS GRID — 4 columns, 1 row */
     .books-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 28px;
+      align-items: start;
     }
+
+    /* BOOK CARD */
     .book-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; overflow: hidden;
-      transition: all 0.3s; cursor: pointer; text-decoration: none;
-      display: flex; flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
-    .book-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-    .book-cover {
-      width: 100%; aspect-ratio: 3/4; object-fit: cover;
-      background: #1a1a1f;
+    .book-card:hover {
+      border-color: rgba(201,168,76,0.45);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
     }
-    .book-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+    /* BOOK COVER — 3D book effect */
+    .book-cover-wrap {
+      width: 100%;
+      padding: 28px 28px 20px;
+      background: linear-gradient(160deg, #1a1a20, #0d0d0f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .book-3d {
+      position: relative;
+      width: 140px;
+      height: 196px;
+      perspective: 800px;
+      flex-shrink: 0;
+    }
+    .book-3d-inner {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: rotateY(-18deg) rotateX(3deg);
+      transition: transform 0.4s ease;
+      position: relative;
+    }
+    .book-card:hover .book-3d-inner {
+      transform: rotateY(-8deg) rotateX(2deg);
+    }
+    /* Front face */
+    .book-face-front {
+      position: absolute;
+      top: 0; left: 0;
+      width: 140px; height: 196px;
+      border-radius: 2px 6px 6px 2px;
+      overflow: hidden;
+      box-shadow: 6px 6px 20px rgba(0,0,0,0.6), 2px 2px 6px rgba(0,0,0,0.4);
+    }
+    .book-face-front img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    /* Spine */
+    .book-spine {
+      position: absolute;
+      top: 3px;
+      left: -14px;
+      width: 14px;
+      height: 196px;
+      background: linear-gradient(to right, #1a1008, #3a2a10, #2a1e08);
+      transform-origin: right center;
+      transform: rotateY(-90deg) translateZ(0px);
+      border-radius: 2px 0 0 2px;
+      box-shadow: -3px 0 8px rgba(0,0,0,0.5);
+    }
+    /* Page edges */
+    .book-pages {
+      position: absolute;
+      top: 3px;
+      right: -6px;
+      width: 6px;
+      height: 190px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #e8e0d0 0px, #e8e0d0 1px,
+        #d0c8b8 1px, #d0c8b8 2px
+      );
+      border-radius: 0 2px 2px 0;
+    }
+    /* Shadow under book */
+    .book-shadow {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 16px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%);
+      filter: blur(4px);
+    }
+
+    /* BADGE */
+    .book-badge {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: var(--gold); color: var(--dark);
+      font-size: 9px; font-weight: 800;
+      padding: 4px 10px; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      z-index: 2;
+    }
+
+    /* CARD BODY */
+    .book-body {
+      padding: 20px 20px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
     .book-category {
       font-size: 10px; font-weight: 700; color: var(--gold);
-      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;
     }
-    .book-title { font-size: 18px; font-weight: 800; line-height: 1.3; letter-spacing: -0.3px; margin-bottom: 8px; }
-    .book-subtitle { font-size: 13px; color: var(--muted); line-height: 1.5; flex: 1; }
+    .book-title {
+      font-size: 16px; font-weight: 800; line-height: 1.3;
+      letter-spacing: -0.3px; margin-bottom: 8px; color: var(--white);
+    }
+    .book-subtitle {
+      font-size: 12px; color: var(--muted); line-height: 1.55;
+      flex: 1;
+    }
+
+    /* CARD FOOTER */
     .book-footer {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 24px; border-top: 1px solid var(--border);
+      padding: 16px 20px;
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
     }
-    .book-price { font-size: 22px; font-weight: 900; color: var(--gold); }
+    .book-price { font-size: 22px; font-weight: 900; color: var(--gold); letter-spacing: -0.5px; }
     .book-btn {
       background: var(--gold); color: var(--dark);
-      padding: 8px 20px; border-radius: 8px;
-      font-weight: 700; font-size: 13px; text-decoration: none;
-      transition: background 0.2s; border: none; cursor: pointer;
+      padding: 8px 18px; border-radius: 8px;
+      font-weight: 700; font-size: 13px;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: background 0.2s;
     }
     .book-btn:hover { background: var(--gold2); }
-    .book-badge {
-      position: absolute; top: 12px; left: 12px;
-      background: var(--gold); color: var(--dark);
-      font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 100px;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .book-card-wrap { position: relative; }
 
     /* WHY */
-    .why-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px;
-    }
-    .why-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 28px;
-    }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .why-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
     .why-icon {
       width: 44px; height: 44px; border-radius: 10px;
       background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.2);
@@ -191,7 +283,8 @@
     /* NEWSLETTER */
     .newsletter {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 64px; text-align: center; max-width: 640px; margin: 0 auto;
+      border-radius: 20px; padding: 64px; text-align: center;
+      max-width: 640px; margin: 0 auto;
     }
     .newsletter h2 { font-size: 32px; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; }
     .newsletter p { color: var(--muted); margin-bottom: 32px; }
@@ -199,8 +292,7 @@
     .newsletter-form input {
       flex: 1; background: var(--dark2); border: 1px solid var(--border);
       color: var(--white); padding: 12px 16px; border-radius: 10px;
-      font-size: 14px; font-family: inherit; outline: none;
-      transition: border-color 0.2s;
+      font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s;
     }
     .newsletter-form input:focus { border-color: var(--gold); }
     .newsletter-form input::placeholder { color: var(--muted); }
@@ -211,7 +303,7 @@
       font-family: inherit; transition: background 0.2s; white-space: nowrap;
     }
     .newsletter-form button:hover { background: var(--gold2); }
-    #nl-success { display: none; color: var(--gold); font-weight: 600; margin-top: 12px; }
+    #nl-success { display: none; color: var(--gold); font-weight: 600; margin-top: 16px; }
 
     /* FOOTER */
     footer {
@@ -228,13 +320,13 @@
     /* MODAL */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.8); backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
       align-items: center; justify-content: center; padding: 24px;
     }
     .modal-overlay.open { display: flex; }
     .modal {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 40px; max-width: 480px; width: 100%;
+      border-radius: 20px; padding: 36px; max-width: 460px; width: 100%;
       position: relative;
     }
     .modal-close {
@@ -242,32 +334,41 @@
       background: none; border: none; color: var(--muted);
       font-size: 22px; cursor: pointer; line-height: 1;
     }
-    .modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 8px; letter-spacing: -0.5px; }
-    .modal-subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+    .modal-top { display: flex; gap: 24px; margin-bottom: 24px; align-items: flex-start; }
+    .modal-cover-wrap { flex-shrink: 0; }
     .modal-cover {
-      width: 100%; aspect-ratio: 16/9; object-fit: cover;
-      border-radius: 10px; margin-bottom: 20px; background: #1a1a1f;
+      width: 100px; height: 140px; object-fit: cover;
+      border-radius: 4px 8px 8px 4px;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.5);
     }
-    .modal-price { font-size: 32px; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
-    .modal-pages { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
-    .modal-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+    .modal-info { flex: 1; }
+    .modal-cat { font-size: 10px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+    .modal h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.5px; line-height: 1.2; }
+    .modal-subtitle { color: var(--muted); font-size: 12px; margin-bottom: 14px; line-height: 1.5; }
+    .modal-price { font-size: 28px; font-weight: 900; color: var(--gold); }
+    .modal-pages { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .modal-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
     .modal-buy {
       display: block; width: 100%;
       background: var(--gold); color: var(--dark);
       padding: 14px; border-radius: 10px; border: none;
-      font-weight: 800; font-size: 16px; cursor: pointer;
+      font-weight: 800; font-size: 15px; cursor: pointer;
       font-family: inherit; text-align: center; text-decoration: none;
       transition: background 0.2s;
     }
     .modal-buy:hover { background: var(--gold2); }
-    .modal-secure { text-align: center; color: var(--muted); font-size: 12px; margin-top: 12px; }
+    .modal-secure { text-align: center; color: var(--muted); font-size: 11px; margin-top: 10px; }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1100px) {
+      .books-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
       nav { padding: 0 20px; }
-      .stats-bar { gap: 32px; padding: 24px; flex-wrap: wrap; }
-      .newsletter { padding: 40px 24px; }
+      .books-grid { grid-template-columns: 1fr; }
+      .stats-bar { gap: 28px; padding: 24px; flex-wrap: wrap; }
+      .newsletter { padding: 36px 20px; }
       .newsletter-form { flex-direction: column; }
-      footer { flex-direction: column; text-align: center; }
+      footer { flex-direction: column; text-align: center; padding: 32px 20px; }
     }
   </style>
 </head>
@@ -311,68 +412,109 @@
       <h2 class="section-title">Choose Your Weapon</h2>
       <p class="section-sub">Every book is a focused, actionable playbook. Read it once, use it forever.</p>
     </div>
+
     <div class="books-grid">
 
-      <div class="book-card-wrap">
+      <!-- Book 1: AI for Entrepreneurs -->
+      <div class="book-card" onclick="openModal('ai-entrepreneurs')">
         <div class="book-badge">Featured</div>
-        <a class="book-card" onclick="openModal('ai-entrepreneurs')">
-          <img class="book-cover" src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/0274150fe_generated_image.png" alt="AI for Entrepreneurs" loading="lazy" />
-          <div class="book-body">
-            <div class="book-category">AI &amp; Tech</div>
-            <div class="book-title">AI for Entrepreneurs</div>
-            <div class="book-subtitle">How to 10x Your Output with AI Tools in 2026</div>
+        <div class="book-cover-wrap">
+          <div class="book-3d">
+            <div class="book-3d-inner">
+              <div class="book-face-front">
+                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/3299ff46e_generated_image.png" alt="AI for Entrepreneurs" />
+              </div>
+              <div class="book-spine"></div>
+              <div class="book-pages"></div>
+            </div>
+            <div class="book-shadow"></div>
           </div>
-          <div class="book-footer">
-            <div class="book-price">€9.99</div>
-            <span class="book-btn">Get It</span>
-          </div>
-        </a>
+        </div>
+        <div class="book-body">
+          <div class="book-category">AI &amp; Tech</div>
+          <div class="book-title">AI for Entrepreneurs</div>
+          <div class="book-subtitle">How to 10x Your Output with AI Tools in 2026</div>
+        </div>
+        <div class="book-footer">
+          <div class="book-price">€9.99</div>
+          <button class="book-btn" onclick="event.stopPropagation(); openModal('ai-entrepreneurs')">Get It</button>
+        </div>
       </div>
 
-      <div class="book-card-wrap">
+      <!-- Book 2: Prompt Like a Pro -->
+      <div class="book-card" onclick="openModal('prompt-pro')">
         <div class="book-badge">Bestseller</div>
-        <a class="book-card" onclick="openModal('prompt-pro')">
-          <img class="book-cover" src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/758b77d08_generated_image.png" alt="Prompt Like a Pro" loading="lazy" />
-          <div class="book-body">
-            <div class="book-category">AI &amp; Productivity</div>
-            <div class="book-title">Prompt Like a Pro</div>
-            <div class="book-subtitle">The Practical Guide to Getting Exactly What You Want from Any AI</div>
+        <div class="book-cover-wrap">
+          <div class="book-3d">
+            <div class="book-3d-inner">
+              <div class="book-face-front">
+                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/ad8021ff7_generated_image.png" alt="Prompt Like a Pro" />
+              </div>
+              <div class="book-spine"></div>
+              <div class="book-pages"></div>
+            </div>
+            <div class="book-shadow"></div>
           </div>
-          <div class="book-footer">
-            <div class="book-price">€14.99</div>
-            <span class="book-btn">Get It</span>
-          </div>
-        </a>
+        </div>
+        <div class="book-body">
+          <div class="book-category">AI &amp; Productivity</div>
+          <div class="book-title">Prompt Like a Pro</div>
+          <div class="book-subtitle">The Practical Guide to Getting Exactly What You Want from Any AI</div>
+        </div>
+        <div class="book-footer">
+          <div class="book-price">€14.99</div>
+          <button class="book-btn" onclick="event.stopPropagation(); openModal('prompt-pro')">Get It</button>
+        </div>
       </div>
 
-      <div class="book-card-wrap">
-        <a class="book-card" onclick="openModal('mindfck')">
-          <img class="book-cover" src="https://base44.app/api/apps/69b1a81e925be2e15bb4b901/files/public/69b1a81e925be2e15bb4b901/1e4848bbe_mindfck_cover.png" alt="Mindfck Prompts" loading="lazy" />
-          <div class="book-body">
-            <div class="book-category">AI &amp; Productivity</div>
-            <div class="book-title">Mindf*ck Prompts</div>
-            <div class="book-subtitle">Stop Using AI Like a Search Engine. Start Using It Like a Genius.</div>
+      <!-- Book 3: Mindf*ck Prompts -->
+      <div class="book-card" onclick="openModal('mindfck')">
+        <div class="book-cover-wrap">
+          <div class="book-3d">
+            <div class="book-3d-inner">
+              <div class="book-face-front">
+                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/66478aca8_generated_image.png" alt="Mindf*ck Prompts" />
+              </div>
+              <div class="book-spine"></div>
+              <div class="book-pages"></div>
+            </div>
+            <div class="book-shadow"></div>
           </div>
-          <div class="book-footer">
-            <div class="book-price">€12.99</div>
-            <span class="book-btn">Get It</span>
-          </div>
-        </a>
+        </div>
+        <div class="book-body">
+          <div class="book-category">AI &amp; Productivity</div>
+          <div class="book-title">Mindf*ck Prompts</div>
+          <div class="book-subtitle">Stop Using AI Like a Search Engine. Start Using It Like a Genius.</div>
+        </div>
+        <div class="book-footer">
+          <div class="book-price">€12.99</div>
+          <button class="book-btn" onclick="event.stopPropagation(); openModal('mindfck')">Get It</button>
+        </div>
       </div>
 
-      <div class="book-card-wrap">
-        <a class="book-card" onclick="openModal('oneperson')">
-          <img class="book-cover" src="https://base44.app/api/apps/69b1a81e925be2e15bb4b901/files/public/69b1a81e925be2e15bb4b901/85830d8ae_oneperson_cover.png" alt="The One-Person Business" loading="lazy" />
-          <div class="book-body">
-            <div class="book-category">Business &amp; Entrepreneurship</div>
-            <div class="book-title">The One-Person Business</div>
-            <div class="book-subtitle">How to Build a $10K/Month Empire Alone, With AI as Your Team</div>
+      <!-- Book 4: The One-Person Business -->
+      <div class="book-card" onclick="openModal('oneperson')">
+        <div class="book-cover-wrap">
+          <div class="book-3d">
+            <div class="book-3d-inner">
+              <div class="book-face-front">
+                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/4974463dd_generated_image.png" alt="The One-Person Business" />
+              </div>
+              <div class="book-spine"></div>
+              <div class="book-pages"></div>
+            </div>
+            <div class="book-shadow"></div>
           </div>
-          <div class="book-footer">
-            <div class="book-price">€14.99</div>
-            <span class="book-btn">Get It</span>
-          </div>
-        </a>
+        </div>
+        <div class="book-body">
+          <div class="book-category">Business &amp; Entrepreneurship</div>
+          <div class="book-title">The One-Person Business</div>
+          <div class="book-subtitle">How to Build a $10K/Month Empire Alone, With AI as Your Team</div>
+        </div>
+        <div class="book-footer">
+          <div class="book-price">€14.99</div>
+          <button class="book-btn" onclick="event.stopPropagation(); openModal('oneperson')">Get It</button>
+        </div>
       </div>
 
     </div>
@@ -438,19 +580,25 @@
   <div style="color: var(--muted); font-size: 12px;">© 2026 ForgelabDigital</div>
 </footer>
 
-<!-- MODALS -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOverlay(event)">
   <div class="modal" id="modal-box">
     <button class="modal-close" onclick="closeModal()">&times;</button>
-    <img class="modal-cover" id="modal-cover" src="" alt="" />
-    <div class="book-category" id="modal-cat"></div>
-    <h3 id="modal-title"></h3>
-    <div class="modal-subtitle" id="modal-sub"></div>
-    <div class="modal-price" id="modal-price"></div>
-    <div class="modal-pages" id="modal-pages"></div>
+    <div class="modal-top">
+      <div class="modal-cover-wrap">
+        <img class="modal-cover" id="modal-cover" src="" alt="" />
+      </div>
+      <div class="modal-info">
+        <div class="modal-cat" id="modal-cat"></div>
+        <h3 id="modal-title"></h3>
+        <div class="modal-subtitle" id="modal-sub"></div>
+        <div class="modal-price" id="modal-price"></div>
+        <div class="modal-pages" id="modal-pages"></div>
+      </div>
+    </div>
     <div class="modal-desc" id="modal-desc"></div>
-    <a class="modal-buy" id="modal-buy" href="#">Buy Now — Instant Download</a>
-    <div class="modal-secure">🔒 Secure checkout via Stripe · Instant PDF delivery</div>
+    <a class="modal-buy" id="modal-buy" href="#" target="_blank">Buy Now — Instant PDF Download</a>
+    <div class="modal-secure">🔒 Secure checkout via Stripe · Delivered instantly to your inbox</div>
   </div>
 </div>
 
@@ -462,7 +610,7 @@ const BOOKS = {
     category: 'AI & Tech',
     price: '€9.99',
     pages: '40 pages',
-    cover: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/0274150fe_generated_image.png',
+    cover: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/3299ff46e_generated_image.png',
     desc: 'A practical playbook for founders and business owners who want to automate, delegate, and move faster using AI — without the tech overwhelm. Real tools, real workflows, zero fluff.',
     buyUrl: 'https://buy.stripe.com/14A28k7oNbu0408bxT0x205'
   },
@@ -472,7 +620,7 @@ const BOOKS = {
     category: 'AI & Productivity',
     price: '€14.99',
     pages: '22 pages',
-    cover: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/758b77d08_generated_image.png',
+    cover: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/ad8021ff7_generated_image.png',
     desc: 'Most people use AI like a search engine. This book teaches you the actual skill: how to write prompts that get you exactly what you want — every time. Includes the CRAFT framework, 50+ real prompt examples, and a 30-day action plan.',
     buyUrl: 'https://buy.stripe.com/7sYfZabF39lS9ks31n0x202'
   },
@@ -482,8 +630,8 @@ const BOOKS = {
     category: 'AI & Productivity',
     price: '€12.99',
     pages: '29 pages',
-    cover: 'https://base44.app/api/apps/69b1a81e925be2e15bb4b901/files/public/69b1a81e925be2e15bb4b901/1e4848bbe_mindfck_cover.png',
-    desc: '99% of people are using AI completely wrong. These 6 elite prompt frameworks are not AI tricks — they are advanced thinking techniques amplified by artificial intelligence. Learn to simulate your future, consult a board of billionaires, and stress-test your ideas.',
+    cover: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/66478aca8_generated_image.png',
+    desc: '99% of people are using AI completely wrong. These 6 elite prompt frameworks are advanced thinking techniques amplified by AI. Learn to simulate your future, consult a board of billionaires, and stress-test your ideas with ruthless precision.',
     buyUrl: 'https://buy.stripe.com/14A8wI10pfKg8go1Xj0x203'
   },
   'oneperson': {
@@ -492,8 +640,8 @@ const BOOKS = {
     category: 'Business & Entrepreneurship',
     price: '€14.99',
     pages: '17 pages',
-    cover: 'https://base44.app/api/apps/69b1a81e925be2e15bb4b901/files/public/69b1a81e925be2e15bb4b901/85830d8ae_oneperson_cover.png',
-    desc: 'The era of the one-person empire is here. No team, no office, no investors — just you, your laptop, and AI as your co-founder. This book gives you the exact systems, frameworks, and blueprints to build a $10K/month business completely alone.',
+    cover: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b1a81e925be2e15bb4b901/4974463dd_generated_image.png',
+    desc: 'The era of the one-person empire is here. No team, no office, no investors — just you, your laptop, and AI as your co-founder. The exact systems, frameworks, and blueprints to build a $10K/month business completely alone.',
     buyUrl: 'https://buy.stripe.com/cNi7sEeRf8hO7ck59v0x204'
   }
 };
@@ -512,21 +660,17 @@ function openModal(id) {
   document.getElementById('modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeModal(e) {
-  if (e && e.target !== document.getElementById('modal-overlay') && e.type === 'click') return;
+function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
+}
+function closeModalOverlay(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 function submitNewsletter(e) {
   e.preventDefault();
-  const email = document.getElementById('nl-email').value;
-  fetch('https://api.base44.com/api/apps/69b1a81e925be2e15bb4b901/entities/Subscriber', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, status: 'active', source: 'website' })
-  });
   document.querySelector('.newsletter-form').style.display = 'none';
   document.getElementById('nl-success').style.display = 'block';
 }
